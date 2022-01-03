@@ -23,22 +23,22 @@ namespace BLL.Services.JopService
 
         public bool DeleteJop(int Id)
         {
-            throw new NotImplementedException();
+            return repo.DeleteJop(Id);
         }
 
         public bool EditJop(JopVM jop)
         {
-            throw new NotImplementedException();
+            return repo.EditJop(jop);
         }
 
-        public List<JopVM> GetAllJop()
+        public IQueryable<JopVM> GetAllJop()
         {
-            throw new NotImplementedException();
+            return repo.GetAllJop();
         }
 
         public JopVM GetJopById(int Id)
         {
-            throw new NotImplementedException();
+            return repo.GetJopById(Id);
         }
     }
 }

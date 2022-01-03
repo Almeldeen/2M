@@ -25,5 +25,25 @@ namespace _2M.Controllers
             var res = service.AddJop(jop);
             return Json(res);
         }
+        public IActionResult EditJop(JopVM jop)
+        {
+            var res = service.EditJop(jop);
+            return Json(res);
+        }
+        public IActionResult DeleteJop(int Id)
+        {
+            var res = service.DeleteJop(Id);
+            return Json(res);
+        }
+        public IActionResult GetAllJop()
+        {
+            var res = service.GetAllJop();
+            return Json(res);
+        }
+        public IActionResult GetJopById(int Id)
+        {
+            var res = service.GetJopById(Id);
+            return Json(res);
+        }
     }
 }

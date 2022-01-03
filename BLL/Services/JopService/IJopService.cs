@@ -13,6 +13,6 @@ namespace BLL.Services.JopService
         bool EditJop(JopVM jop);
         bool DeleteJop(int Id);
         JopVM GetJopById(int Id);
-        List<JopVM> GetAllJop();
+        IQueryable<JopVM> GetAllJop();
     }
 }

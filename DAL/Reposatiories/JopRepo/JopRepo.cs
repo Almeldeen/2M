@@ -46,22 +46,65 @@ namespace DAL.Reposatiories.JopRepo
 
         public bool DeleteJop(int Id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var data = db.Jops.Find(Id);
+                db.Jops.Remove(data);
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+           
         }
 
         public bool EditJop(JopVM jop)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var data = mapper.Map<Jop>(jop);
+                db.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+         
+
         }
 
-        public List<JopVM> GetAllJop()
+        public IQueryable<JopVM> GetAllJop()
         {
-            throw new NotImplementedException();
+            
+           IQueryable<JopVM> data =  db.Jops.Select(a => new JopVM { JopId = a.JopId, JopName = a.JopName });
+            return data;
         }
 
         public JopVM GetJopById(int Id)
         {
-            throw new NotImplementedException();
+            JopVM data = db.Jops.Where(a => a.JopId == Id).Select(a => new JopVM { JopId = a.JopId, JopName = a.JopName }).FirstOrDefault();
+            return data;
         }
     }
 }
