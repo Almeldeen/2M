@@ -14,6 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using DAL.Contanier;
+using DAL.Reposatiories.JopRepo;
+using BLL.Services.JopService;
+using BLL.Mapper;
 
 namespace _2M
 {
@@ -29,9 +32,15 @@ namespace _2M
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IJopService, JopService>();
+            services.AddScoped<IJopRepo, JopRepo>();
+            services.AddAutoMapper(x => x.AddProfile(new DominProfile()));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplacationDbContext>();
             services.AddDbContext<ApplacationDbContext>(option =>
             option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddRazorPages();
+            services.AddControllersWithViews();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
