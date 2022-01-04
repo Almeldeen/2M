@@ -17,6 +17,8 @@ using DAL.Contanier;
 using DAL.Reposatiories.JopRepo;
 using BLL.Services.JopService;
 using BLL.Mapper;
+using DAL.Reposatiories.EmpRepo;
+using BLL.Services.EmpServies;
 
 namespace _2M
 {
@@ -33,7 +35,9 @@ namespace _2M
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IJopService, JopService>();
+            services.AddScoped<IEmpServies, EmpServies>();
             services.AddScoped<IJopRepo, JopRepo>();
+            services.AddScoped<IEmpRepo, EmpRepo>();
             services.AddAutoMapper(x => x.AddProfile(new DominProfile()));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplacationDbContext>();
             services.AddDbContext<ApplacationDbContext>(option =>

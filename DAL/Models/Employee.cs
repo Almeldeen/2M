@@ -17,7 +17,7 @@ namespace DAL.Models
         public decimal OrgSalary { get; set; }
         public decimal TotalSalary{ get; set; }
         [ForeignKey("JopId")]
-        public int JpoId { get; set; }
+        public int JopId { get; set; }
         public Jop Jop { get; set; }
         public virtual List<Attendance> Attendances { get; set; }
         public virtual List<EmpExpenses> EmpExpenses { get; set; }
