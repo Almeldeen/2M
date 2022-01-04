@@ -1,4 +1,5 @@
-﻿using BLL.Services.JopService;
+﻿using BLL.Helper;
+using BLL.Services.JopService;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -35,10 +36,11 @@ namespace _2M.Controllers
             var res = service.DeleteJop(Id);
             return Json(res);
         }
-        public IActionResult GetAllJop()
+        public IActionResult GetAllJop(int pageNumber = 1, int pageSize = 10)
         {
-            var res = service.GetAllJop();
-            return Json(res);
+            var res = service.GetAllJop().ToList();
+            var pagedData = Pagination.PagedResult(res, pageNumber, pageSize);
+            return Json(pagedData);
         }
         public IActionResult GetJopById(int Id)
         {
