@@ -1,5 +1,6 @@
 ﻿using BLL.Helper;
 using BLL.Services.EmpServies;
+using BLL.Services.JopService;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,13 +13,16 @@ namespace _2M.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmpServies servies;
+        private readonly IJopService jop;
 
-        public EmployeeController(IEmpServies servies)
+        public EmployeeController(IEmpServies servies,IJopService jop)
         {
             this.servies = servies;
+            this.jop = jop;
         }
         public IActionResult Index()
         {
+            ViewBag.Jop = jop.GetAllJop().Select(x=> new JopVM {JopId=x.JopId,JopName=x.JopName }).ToList();
             return View();
         }
         public IActionResult AddEmp(EmpVM Emp)

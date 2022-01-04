@@ -39,6 +39,7 @@ namespace _2M.Controllers
         public IActionResult GetAllJop(int pageNumber = 1, int pageSize = 10)
         {
             var res = service.GetAllJop().ToList();
+           
             var pagedData = Pagination.PagedResult(res, pageNumber, pageSize);
             return Json(pagedData);
         }
