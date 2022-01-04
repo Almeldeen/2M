@@ -17,6 +17,10 @@ namespace BLL.Mapper
             CreateMap<JopVM, Jop>();
             CreateMap<EmpVM, Employee>();
             CreateMap<Employee, EmpVM>();
+            CreateMap<Accounts, AccVM>();
+            CreateMap<AccVM,Accounts >();
+
+
         }
     }
 }
