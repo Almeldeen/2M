@@ -23,6 +23,8 @@ namespace BLL.Mapper
             CreateMap<SupplierVM,Suppliers>();
             CreateMap<Attendance,AttendVM>();
             CreateMap<AttendVM,Attendance>();
+            CreateMap<EmpExpensesVM, EmpExpenses>();
+            CreateMap<EmpExpenses, EmpExpensesVM>();
 
 
         }
