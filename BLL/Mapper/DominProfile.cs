@@ -21,6 +21,8 @@ namespace BLL.Mapper
             CreateMap<AccVM,Accounts >();
             CreateMap<Suppliers,SupplierVM>();
             CreateMap<SupplierVM,Suppliers>();
+            CreateMap<Attendance,AttendVM>();
+            CreateMap<AttendVM,Attendance>();
 
 
         }

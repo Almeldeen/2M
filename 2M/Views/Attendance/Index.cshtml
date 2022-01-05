@@ -11,7 +11,7 @@
             <table>
                 <tbody>
                     <tr>
-                        <td><h6 class="text-white text-capitalize ps-3 mx-4 ">يوم <span id="day">@DateTime.Now.Date.ToString().Substring(0, 10)</span></h6></td>
+                        <td><h6 class="text-white text-capitalize ps-3 mx-4 ">يوم <span id="day"></span></h6></td>
                         <td><input id="date" class="input-group border" type="date" /></td>
                     </tr>
                 </tbody>
@@ -29,8 +29,7 @@
                         <th class=" text-center">المهنة</th>
                         <th class=" text-center">الغياب</th>
                         <th class=" text-center">الخصم</th>
-                        <th class=" text-center">الراتب</th>
-                        <th class=" text-center">الراتب بعد الخصم</th>
+                        <th class=" text-center">عدد ايام الغياب</th>                      
                         <th class=" text-center "></th>
                     </tr>
                 </thead>
@@ -56,17 +55,14 @@
         LoadALL(1);
         $('#date').change(function () {
             $('#day').html($('#date').val());
+            LoadALL(1);
         });
-        $('input[type="radio"]').click(function () {
-            var id = $(this).attr('id');
-            alert(id);
-
-        });
+       
     });
     var currPage = 0;
     function LoadALL(pageNum) {
         $.ajax({
-            url: "/Employee/GetAllEmp?pageNumber=" + pageNum + "&pageSize=" + 5,
+            url: "/Attendance/GetAllAttend?pageNumber=" + pageNum + "&pageSize=" + 5,
             type: "GET",
             dataType: "json",
             success: function (result) {
@@ -85,23 +81,24 @@
     }
     function Add(id) {
         let Absent = $('input[name="Att_' + id + '"]:checked').val();
-        let date = $('#day').html($('#date').val());
+        let date = $('#date').val();
         var Deduction = $('#Deduc_' + id).val();
+        var AbcentNum = parseInt($('#AbsNum_' + id).text());
 
 
-        $('.error').hide();
-        if (Name == "" || Name == null) {
-            $('#NameError').show();
-        }
-        else if (Salary == "" || Salary == null) {
-            $('#SalaryError').show();
-        }
-        else if (Jop == "" || Jop == null) {
-            $('#JopError').show();
-        }
-        else {
-            $.ajax({
-                url: "/Employee/AddEmp?EmpName=" + Name + "&PhoneNumber=" + Phone + "&OrgSalary=" + Salary + "&JopId=" + Jop,
+        //$('.error').hide();
+        //if (Name == "" || Name == null) {
+        //    $('#NameError').show();
+        //}
+        //else if (Salary == "" || Salary == null) {
+        //    $('#SalaryError').show();
+        //}
+        //else if (Jop == "" || Jop == null) {
+        //    $('#JopError').show();
+        //}
+        /*else {*/
+        $.ajax({
+            url: "/Attendance/AddAttend?Date=" + date + "&Absent=" + Absent + "&Deduction=" + Deduction + "&AbcentNum=" + AbcentNum + "&EmpId=" + id,
                 type: "POST",
                 success: function (result) {
 
@@ -119,7 +116,7 @@
                     }
                 },
             });
-        }
+      /*  }*/
 
     }
     function GetById(id) {
@@ -216,8 +213,8 @@
             '<label class="form-check-label me-2" for="inlineRadio2">غائب</label></div>' +
             '<td class="align-middle text-center text-lg" ><select class="form-select" id="Deduc_' + data.empId + '"><option value="0">لايوجد خصم</option><option value=".25">ربع يوم</option><option value=".5">نص يوم</option>' +
             '<option value="1">يوم</option><option value="1.5">يوم ونص</option><option value="2">يومين</option><option value="3">3 ايام</option></select ></td > ' +
-            '<td class="align-middle text-center text-lg" >' + data.orgSalary + '</td >' +
-            '<td class="align-middle text-center text-lg" >' + data.totalSalary + '</td >' +
+            '<td class="align-middle text-center text-lg" id="AbsNum_' + data.empId + '" >' + data.attends + '</td >' +
+           
             '<td class="align-middle"><a href="javascript:;" onclick="Add(' + data.empId + ')" class=" btn bg-gradient-info font-weight-bold  " data-toggle="tooltip" data-original-title="Edit user">حفظ</a>' +
             '</td ></tr >';
     }

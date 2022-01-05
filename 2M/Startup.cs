@@ -23,6 +23,8 @@ using DAL.Reposatiories.AccRepo;
 using BLL.Services.AccServies;
 using BLL.Services.SupplierServies;
 using DAL.Reposatiories.SupplierRepo;
+using DAL.Reposatiories.AttendRepo;
+using BLL.Services.AttendServies;
 
 namespace _2M
 {
@@ -41,10 +43,12 @@ namespace _2M
             services.AddScoped<IJopService, JopService>();
             services.AddScoped<IEmpServies, EmpServies>();
             services.AddScoped<IAccServies, AccServies>();
+            services.AddScoped<IAttendServies, AttendServies>();
             services.AddScoped<ISupplierServies, SupplierServies>();
             services.AddScoped<IJopRepo, JopRepo>();
             services.AddScoped<IAccRepo, AccRepo>();
             services.AddScoped<IEmpRepo, EmpRepo>();
+            services.AddScoped<IAttendRepo, AttendRepo>();
             services.AddScoped<ISupplierRepo, SupplierRepo>();
            
             services.AddAutoMapper(x => x.AddProfile(new DominProfile()));
