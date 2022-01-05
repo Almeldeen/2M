@@ -27,6 +27,7 @@ namespace DAL.Reposatiories.EmpRepo
             try
             {
                 var data = mapper.Map<Employee>(Emp);
+              
                 db.Employees.Add(data);
                 int res = db.SaveChanges();
                 if (res > 0)

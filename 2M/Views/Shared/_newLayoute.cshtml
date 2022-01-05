@@ -49,6 +49,14 @@
         <div class="collapse navbar-collapse px-0 w-auto  max-height-vh-100" id="sidenav-collapse-main">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <a class="nav-link " asp-action="Index" asp-controller="Account">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons-round opacity-10">dashboard</i>
+                        </div>
+                        <span class="nav-link-text me-1">الحسابات</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link " asp-action="Index" asp-controller="Jop">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons-round opacity-10">dashboard</i>
@@ -65,11 +73,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="~/pages/billing.html">
+                    <a class="nav-link " asp-action="Index" asp-controller="Attendance">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons-round opacity-10">table_view</i>
+                        </div>
+                        <span class="nav-link-text me-1">الحضور والغياب</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-action="Index" asp-controller="Supplier">
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons-round opacity-10">receipt_long</i>
                         </div>
-                        <span class="nav-link-text me-1">الفواتير</span>
+                        <span class="nav-link-text me-1">الموردين</span>
                     </a>
                 </li>
                 <li class="nav-item">

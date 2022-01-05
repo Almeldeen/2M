@@ -9,7 +9,7 @@ namespace DAL.Reposatiories.AccRepo
 {
     public interface IAccRepo
     {
-        bool AddAccount(ِAccVM Acc);
+        bool AddAccount(AccVM Acc);
         bool EditAccount(AccVM Acc);
         bool DeleteAccount(int Id);
         AccVM GetAccountById(int Id);

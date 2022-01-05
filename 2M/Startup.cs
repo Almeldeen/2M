@@ -21,6 +21,8 @@ using DAL.Reposatiories.EmpRepo;
 using BLL.Services.EmpServies;
 using DAL.Reposatiories.AccRepo;
 using BLL.Services.AccServies;
+using BLL.Services.SupplierServies;
+using DAL.Reposatiories.SupplierRepo;
 
 namespace _2M
 {
@@ -39,9 +41,12 @@ namespace _2M
             services.AddScoped<IJopService, JopService>();
             services.AddScoped<IEmpServies, EmpServies>();
             services.AddScoped<IAccServies, AccServies>();
+            services.AddScoped<ISupplierServies, SupplierServies>();
             services.AddScoped<IJopRepo, JopRepo>();
             services.AddScoped<IAccRepo, AccRepo>();
             services.AddScoped<IEmpRepo, EmpRepo>();
+            services.AddScoped<ISupplierRepo, SupplierRepo>();
+           
             services.AddAutoMapper(x => x.AddProfile(new DominProfile()));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplacationDbContext>();
             services.AddDbContext<ApplacationDbContext>(option =>

@@ -1,50 +1,38 @@
 ﻿
 @{
-    ViewBag.Title = "الموظفين";
-    
+    ViewBag.Title = "الحسابات";
+
 }
 
 <div class="col-12">
     <form>
-       
-            <input style="display:none" id="hidnId" value="" />
-            <div class="form-group ">
-                <label for="Name" class="form-label">اسم الموظف</label>
-                <input id="Name" type="text" class="form-control font-weight-bold" placeholder="اسم الموظف..." />
-                <small id="NameError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون اسم</small>
-                <hr />
-                <label for="Phone" class="form-label">رقم التليفون</label>
-                <input type="text" id="Phone" class="form-control font-weight-bold" placeholder="رقم التليفون..." />
-                <hr />
-                <label for="Salary" class="form-label">الراتب</label>
-                <input type="number" id="Salary" class="form-control font-weight-bold" placeholder="الراتب..." />
-                <small id="SalaryError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون الراتب</small>
-                <hr />
-                <label for="Jop" class="form-label">المهنة</label>
-                <select class="form-control border " id="Jop">
-                    <option value="-1">اختر مهنة</option>
-                    @foreach (var item in ViewBag.Jop)
-                    {
-                        <option value="@item.JopId">@item.JopName</option>
-                    }
-                </select>
-                <small id="JopError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون المهنة</small>
-            </div>
-           
 
-                 
-            <div class="form-control input-group-append">
+        <input style="display:none" id="hidnId" value="" />
+        <div class="form-group ">
+            <label for="Name" class="form-label">اسم الحساب</label>
+            <input id="Name" type="text" class="form-control font-weight-bold" placeholder="اسم الحساب..." />
+            <small id="NameError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون اسم</small>
+            <hr />
+            <label for="value" class="form-label">القيمة</label>
+            <input type="text" id="value" class="form-control font-weight-bold" placeholder="القيمة..." />
+           
+            <small id="valueError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون قيمة</small>
+        </div>
+
+
+
+        <div class="form-control input-group-append">
             <button onclick="Add()" id="add" type="button" class="btn btn-primary">اضافة موظف</button>
             <button onclick="Update()" id="edit" style="display:none" type="button" class="btn btn-primary">تعديل</button>
         </div>
-       
-        
+
+
     </form>
     <div class="card my-4">
 
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3 mx-4 ">جدول الموظفين</h6>
+                <h6 class="text-white text-capitalize ps-3 mx-4 ">جدول الحسابات</h6>
             </div>
         </div>
         <div class="card-body px-0 pb-2">
@@ -52,10 +40,9 @@
                 <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class=" text-center">اسم الموظف</th>
-                            <th class=" text-center">رقم التليفون</th>
-                            <th class=" text-center">الراتب</th>
-                            <th class=" text-center">المهنة</th>
+                            <th class=" text-center">اسم الحساب</th>
+                            <th class=" text-center">القيمة</th>
+                        
                             <th class=" text-center "></th>
                         </tr>
                     </thead>
@@ -82,7 +69,7 @@
     var currPage = 0;
     function LoadALL(pageNum) {
         $.ajax({
-            url: "/Employee/GetAllEmp?pageNumber=" + pageNum + "&pageSize=" + 5,
+            url: "/Account/GetAllAccount?pageNumber=" + pageNum + "&pageSize=" + 5,
             type: "GET",
             dataType: "json",
             success: function (result) {
@@ -101,32 +88,28 @@
     }
     function Add() {
         var Name = $('#Name').val();
-        var Phone = $('#Phone').val();
-        var Salary = $('#Salary').val();
-        var Jop = $('#Jop').val();
-        
+        var value = $('#value').val();
+       
+
         $('.error').hide();
         if (Name == "" || Name == null) {
             $('#NameError').show();
         }
-        else if (Salary == "" || Salary == null) {
-            $('#SalaryError').show();
+        else if (value == "" || value == null) {
+            $('#valueError').show();
         }
-        else if (Jop == "" || Jop == null) {
-            $('#JopError').show();
-        }
+       
         else {
             $.ajax({
-                url: "/Employee/AddEmp?EmpName=" + Name + "&PhoneNumber=" + Phone + "&OrgSalary=" + Salary +"&TotalSalary=" + Salary +"&JopId=" + Jop,
+                url: "/Account/AddAccount?Name=" + Name + "&Value=" + value ,
                 type: "POST",
                 success: function (result) {
 
                     if (result == true) {
                         swal("تم الحفظ بنجاح", "", "success");
                         $('#Name').val("");
-                        $('#Phone').val("");
-                        $('#Salary').val("");
-                        $('#Jop').val(-1);
+                        $('#value').val("");
+                       
 
                         LoadALL(1);
                     }
@@ -140,16 +123,14 @@
     }
     function GetById(id) {
         $.ajax({
-            url: "/Employee/GetEmpById?Id=" + id,
+            url: "/Account/GetAccountById?Id=" + id,
             type: "GET",
             dataType: "json",
             success: function (result) {
 
                 $('#hidnId').val(id);
-                $('#Name').val(result.empName);
-                $('#Phone').val(result.phoneNumber);
-                $('#Salary').val(result.orgSalary);
-                $('#Jop').val(result.jopId);
+                $('#Name').val(result.name);
+                $('#value').val(result.value);                
                 $('#add').hide();
                 $('#edit').show();
 
@@ -163,11 +144,10 @@
     function Update() {
         var id = $('#hidnId').val();
         var Name = $('#Name').val();
-        var Phone = $('#Phone').val();
-        var Salary = $('#Salary').val();
-        var Jop = $('#Jop').val();
+        var value = $('#value').val();
+       
         $.ajax({
-            url: "/Employee/EditEmp?EmpId=" + id + "&EmpName=" + Name + "&PhoneNumber=" + Phone + "&OrgSalary=" + Salary + "&JopId=" + Jop,
+            url: "/Account/EditAccount?AccountId=" + id + "&Name=" + Name + "&Value=" + value ,
             type: "POST",
 
             dataType: 'json',
@@ -177,9 +157,8 @@
                 if (result == true) {
                     swal("تم الحفظ بنجاح", "", "success");
                     $('#Name').val("");
-                    $('#Phone').val("");
-                    $('#Salary').val("");
-                    $('#Jop').val(-1);
+                    $('#value').val("");
+                    
                     LoadALL(1);
                     $('#add').show();
                     $('#edit').hide();
@@ -201,7 +180,7 @@
             .then((willDelete) => {
                 if (willDelete) {
                     $.ajax({
-                        url: "/Employee/DeleteEmp?Id=" + id,
+                        url: "/Account/DeleteAccount?Id=" + id,
                         type: "POST",
                         dataType: 'json',
                         success: function (result) {
@@ -222,12 +201,11 @@
             });
     }
     function SeedDataTabel(data) {
-        return '<tr><td class="align-middle text-center text-lg" >' + data.empName + '</td >' +
-            '<td class="align-middle text-center text-lg" >' + data.phoneNumber + '</td >' +
-            '<td class="align-middle text-center text-lg" >' + data.orgSalary + '</td >' +
-            '<td class="align-middle text-center text-lg" >' + data.jopName + '</td >' +
-            '<td class="align-middle"><a href="javascript:;" onclick="GetById(' + data.empId + ')" class=" btn bg-gradient-info font-weight-bold  " data-toggle="tooltip" data-original-title="Edit user">تعديل</a>|' +
-            '<a href="javascript:;"onclick="Delet(' + data.empId + ')" class=" btn btn-danger font-weight-bold " data-toggle="tooltip" data-original-title="Edit user">حذف</a></td ></tr >';
+        return '<tr><td class="align-middle text-center text-lg" >' + data.name + '</td >' +
+            '<td class="align-middle text-center text-lg" >' + data.value + '</td >' +
+           
+            '<td class="align-middle"><a href="javascript:;" onclick="GetById(' + data.accountId + ')" class=" btn bg-gradient-info font-weight-bold  " data-toggle="tooltip" data-original-title="Edit user">تعديل</a>|' +
+            '<a href="javascript:;"onclick="Delet(' + data.accountId + ')" class=" btn btn-danger font-weight-bold " data-toggle="tooltip" data-original-title="Edit user">حذف</a></td ></tr >';
     }
     function PaggingTemplate(totalPage, currentPage) {
 

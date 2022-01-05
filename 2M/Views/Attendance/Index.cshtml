@@ -1,83 +1,67 @@
 ﻿
 @{
-    ViewBag.Title = "الموظفين";
-    
+    ViewBag.Title = "الحضور والغياب";
+
 }
+<div class="card my-4">
 
-<div class="col-12">
-    <form>
-       
-            <input style="display:none" id="hidnId" value="" />
-            <div class="form-group ">
-                <label for="Name" class="form-label">اسم الموظف</label>
-                <input id="Name" type="text" class="form-control font-weight-bold" placeholder="اسم الموظف..." />
-                <small id="NameError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون اسم</small>
-                <hr />
-                <label for="Phone" class="form-label">رقم التليفون</label>
-                <input type="text" id="Phone" class="form-control font-weight-bold" placeholder="رقم التليفون..." />
-                <hr />
-                <label for="Salary" class="form-label">الراتب</label>
-                <input type="number" id="Salary" class="form-control font-weight-bold" placeholder="الراتب..." />
-                <small id="SalaryError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون الراتب</small>
-                <hr />
-                <label for="Jop" class="form-label">المهنة</label>
-                <select class="form-control border " id="Jop">
-                    <option value="-1">اختر مهنة</option>
-                    @foreach (var item in ViewBag.Jop)
-                    {
-                        <option value="@item.JopId">@item.JopName</option>
-                    }
-                </select>
-                <small id="JopError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون المهنة</small>
-            </div>
-           
+    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3 mx-4 ">جدول الحضور والغياب</h6>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><h6 class="text-white text-capitalize ps-3 mx-4 ">يوم <span id="day">@DateTime.Now.Date.ToString().Substring(0, 10)</span></h6></td>
+                        <td><input id="date" class="input-group border" type="date" /></td>
+                    </tr>
+                </tbody>
+            </table>
 
-                 
-            <div class="form-control input-group-append">
-            <button onclick="Add()" id="add" type="button" class="btn btn-primary">اضافة موظف</button>
-            <button onclick="Update()" id="edit" style="display:none" type="button" class="btn btn-primary">تعديل</button>
+
         </div>
-       
-        
-    </form>
-    <div class="card my-4">
-
-        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3 mx-4 ">جدول الموظفين</h6>
-            </div>
-        </div>
-        <div class="card-body px-0 pb-2">
-            <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                    <thead>
-                        <tr>
-                            <th class=" text-center">اسم الموظف</th>
-                            <th class=" text-center">رقم التليفون</th>
-                            <th class=" text-center">الراتب</th>
-                            <th class=" text-center">المهنة</th>
-                            <th class=" text-center "></th>
-                        </tr>
-                    </thead>
-                    <tbody id="Data">
-                    </tbody>
-                </table>
-                <!-- pagination -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                    </ul>
-                </nav>
-            </div>
+    </div>
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class=" text-center">اسم الموظف</th>
+                        <th class=" text-center">المهنة</th>
+                        <th class=" text-center">الغياب</th>
+                        <th class=" text-center">الخصم</th>
+                        <th class=" text-center">الراتب</th>
+                        <th class=" text-center">الراتب بعد الخصم</th>
+                        <th class=" text-center "></th>
+                    </tr>
+                </thead>
+                <tbody id="Data">
+                </tbody>
+            </table>
+            <!-- pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
+
+
+
 
 <script src="~/jquery/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
 
         LoadALL(1);
+        $('#date').change(function () {
+            $('#day').html($('#date').val());
+        });
+        $('input[type="radio"]').click(function () {
+            var id = $(this).attr('id');
+            alert(id);
 
+        });
     });
     var currPage = 0;
     function LoadALL(pageNum) {
@@ -99,12 +83,12 @@
 
         });
     }
-    function Add() {
-        var Name = $('#Name').val();
-        var Phone = $('#Phone').val();
-        var Salary = $('#Salary').val();
-        var Jop = $('#Jop').val();
-        
+    function Add(id) {
+        let Absent = $('input[name="Att_' + id + '"]:checked').val();
+        let date = $('#day').html($('#date').val());
+        var Deduction = $('#Deduc_' + id).val();
+
+
         $('.error').hide();
         if (Name == "" || Name == null) {
             $('#NameError').show();
@@ -117,7 +101,7 @@
         }
         else {
             $.ajax({
-                url: "/Employee/AddEmp?EmpName=" + Name + "&PhoneNumber=" + Phone + "&OrgSalary=" + Salary +"&TotalSalary=" + Salary +"&JopId=" + Jop,
+                url: "/Employee/AddEmp?EmpName=" + Name + "&PhoneNumber=" + Phone + "&OrgSalary=" + Salary + "&JopId=" + Jop,
                 type: "POST",
                 success: function (result) {
 
@@ -223,11 +207,19 @@
     }
     function SeedDataTabel(data) {
         return '<tr><td class="align-middle text-center text-lg" >' + data.empName + '</td >' +
-            '<td class="align-middle text-center text-lg" >' + data.phoneNumber + '</td >' +
-            '<td class="align-middle text-center text-lg" >' + data.orgSalary + '</td >' +
             '<td class="align-middle text-center text-lg" >' + data.jopName + '</td >' +
-            '<td class="align-middle"><a href="javascript:;" onclick="GetById(' + data.empId + ')" class=" btn bg-gradient-info font-weight-bold  " data-toggle="tooltip" data-original-title="Edit user">تعديل</a>|' +
-            '<a href="javascript:;"onclick="Delet(' + data.empId + ')" class=" btn btn-danger font-weight-bold " data-toggle="tooltip" data-original-title="Edit user">حذف</a></td ></tr >';
+            '<td class="align-middle text-center text-lg" ><div class="form-check form-check-inline">' +
+            '<input class="form-check-input" type = "radio" name ="Att_' + data.empId + '" id = "inlineRadio1" value = "true" >' +
+            '<label class="form-check-label me-2" for="inlineRadio1">حاضر</label></div >' +
+            '<div class="form-check form-check-inline">' +
+            '<input class="form-check-input" type="radio" name ="Att_' + data.empId + '" id="inlineRadio2" value="false">' +
+            '<label class="form-check-label me-2" for="inlineRadio2">غائب</label></div>' +
+            '<td class="align-middle text-center text-lg" ><select class="form-select" id="Deduc_' + data.empId + '"><option value="0">لايوجد خصم</option><option value=".25">ربع يوم</option><option value=".5">نص يوم</option>' +
+            '<option value="1">يوم</option><option value="1.5">يوم ونص</option><option value="2">يومين</option><option value="3">3 ايام</option></select ></td > ' +
+            '<td class="align-middle text-center text-lg" >' + data.orgSalary + '</td >' +
+            '<td class="align-middle text-center text-lg" >' + data.totalSalary + '</td >' +
+            '<td class="align-middle"><a href="javascript:;" onclick="Add(' + data.empId + ')" class=" btn bg-gradient-info font-weight-bold  " data-toggle="tooltip" data-original-title="Edit user">حفظ</a>' +
+            '</td ></tr >';
     }
     function PaggingTemplate(totalPage, currentPage) {
 
@@ -301,4 +293,3 @@
 
     }
 </script>
-
