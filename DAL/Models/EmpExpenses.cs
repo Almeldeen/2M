@@ -14,6 +14,7 @@ namespace DAL.Models
         public int ExpenId { get; set; }
         public byte ExpensesType { get; set; }
         public decimal Value { get; set; }
+        public string Note { get; set; }
         [ForeignKey("EmpId")]
         public int EmpId { get; set; }
         public Employee Employee { get; set; }

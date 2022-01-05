@@ -27,7 +27,7 @@ namespace _2M.Controllers
         public IActionResult GetAllAttend(DateTime date,int pageNumber = 1, int pageSize = 10)
         {
             var res = servies.GetAllAttend(date).ToList();
-            var pagedData = Pagination.PagedResult(res, pageNumber, pageSize);
+            var pagedData = Pagination.PagedResult(res.SkipWhile(x => x.AttendReg == true).ToList(), pageNumber, pageSize);
             return Json(pagedData);
                 
         }
