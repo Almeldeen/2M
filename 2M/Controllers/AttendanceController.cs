@@ -24,9 +24,9 @@ namespace _2M.Controllers
         {
             return View();
         }
-        public IActionResult GetAllAttend(int pageNumber = 1, int pageSize = 10)
+        public IActionResult GetAllAttend(DateTime date,int pageNumber = 1, int pageSize = 10)
         {
-            var res = servies.GetAllAttend().ToList();
+            var res = servies.GetAllAttend(date).ToList();
             var pagedData = Pagination.PagedResult(res, pageNumber, pageSize);
             return Json(pagedData);
                 
@@ -40,7 +40,10 @@ namespace _2M.Controllers
             var data = servies.AddAttend(Attend);
             return Json(data);
         }
-
+        public IActionResult ViewEmpAttend()
+        {
+            return View();
+        }
 
     }
 }

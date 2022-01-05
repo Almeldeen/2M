@@ -20,7 +20,7 @@ namespace DAL.Reposatiories.AttendRepo
             this.db = db;
             this.mapper = mapper;
         }
-        public bool AddAttend(AttendVM Attend)
+        public int AddAttend(AttendVM Attend)
         {
             try
             {
@@ -32,35 +32,36 @@ namespace DAL.Reposatiories.AttendRepo
                     int res = db.SaveChanges();
                     if (res > 0)
                     {
-                        return true;
+                        return 1;
                     }
                     else
                     {
-                        return false;
+                        return 0;
                     }
                 }
                 else
                 {
-                    return false;
+                    return 2;
                 }
                 
             }
             catch (Exception ex)
             {
 
-                return false;
+                return 0;
 
             }
         }
 
-        public IQueryable<AttendDetailsVM> GetAllAttend()
+        public IQueryable<AttendDetailsVM> GetAllAttend(DateTime date)
         {
             var data = db.Employees.Select(x => new AttendDetailsVM
             {
                 EmpId = x.EmpId,
                 EmpName = x.EmpName,
                 JopName = x.Jop.JopName,
-                Attends = db.Attendances.Where(a => a.EmpId == x.EmpId&&a.Absent==false).Count()
+                Attends = db.Attendances.Where(a => a.EmpId == x.EmpId&&a.Absent==false).Count(),
+                AttendReg= db.Attendances.Where(a => a.EmpId == x.EmpId && a.Date == date).Any()
             });
             return data;
         }

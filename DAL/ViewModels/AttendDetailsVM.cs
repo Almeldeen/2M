@@ -12,5 +12,6 @@ namespace DAL.ViewModels
         public string EmpName { get; set; }
         public string JopName { get; set; }
         public int Attends { get; set; }
+        public bool AttendReg { get; set; }
     }
 }

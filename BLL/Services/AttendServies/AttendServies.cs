@@ -19,7 +19,7 @@ namespace BLL.Services.AttendServies
             this.repo = repo;
             this.Emprepo = Emprepo;
         }
-        public bool AddAttend(AttendVM attend)
+        public int AddAttend(AttendVM attend)
         {
             if (attend.AbcentNum>4)
             {
@@ -29,9 +29,9 @@ namespace BLL.Services.AttendServies
             return repo.AddAttend(attend);
         }
 
-        public IQueryable<AttendDetailsVM> GetAllAttend()
+        public IQueryable<AttendDetailsVM> GetAllAttend(DateTime date)
         {
-            return repo.GetAllAttend();
+            return repo.GetAllAttend(date);
         }
 
         public AttendVM GetAttendById(int Id)

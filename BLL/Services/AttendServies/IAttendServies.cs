@@ -9,9 +9,9 @@ namespace BLL.Services.AttendServies
 {
     public interface IAttendServies
     {
-        bool AddAttend(AttendVM Emp);
+        int AddAttend(AttendVM Emp);
 
         AttendVM GetAttendById(int Id);
-        IQueryable<AttendDetailsVM> GetAllAttend();
+        IQueryable<AttendDetailsVM> GetAllAttend(DateTime date);
     }
 }

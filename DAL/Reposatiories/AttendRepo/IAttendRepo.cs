@@ -9,9 +9,9 @@ namespace DAL.Reposatiories.AttendRepo
 {
     public interface IAttendRepo
     {
-        bool AddAttend(AttendVM Emp);
+        int AddAttend(AttendVM Emp);
        
         AttendVM GetAttendById(int Id);
-        IQueryable<AttendDetailsVM> GetAllAttend();
+        IQueryable<AttendDetailsVM> GetAllAttend(DateTime date);
     }
 }
