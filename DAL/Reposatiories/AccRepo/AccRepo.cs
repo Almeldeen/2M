@@ -20,6 +20,7 @@ namespace DAL.Reposatiories.AccRepo
             this.db = db;
             this.Mapper = Mapper;
         }
+        #region Acc
         public bool AddAccount(AccVM Acc)
         {
             try
@@ -106,5 +107,101 @@ namespace DAL.Reposatiories.AccRepo
             var data = db.Accounts.Select(a => new AccVM { AccountId = a.AccountId, Name = a.Name, Value = a.Value });
             return data;
         }
+        #endregion
+        #region AccOp
+        public bool AddAccountOp(AccOpVM AccOp)
+        {
+            try
+            {
+                var data = Mapper.Map<AccountOperations>(AccOp);
+                db.AccountOperations.Add(data);
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+
+            }
+
+        }
+
+        public bool DeleteAccountOp(int Id)
+        {
+            try
+            {
+                var data = db.AccountOperations.Find(Id);
+                db.AccountOperations.Remove(data);
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                return false;
+
+            }
+
+        }
+
+        public bool EditAccountOp(AccOpVM AccOp)
+        {
+            try
+            {
+                var data = Mapper.Map<AccountOperations>(AccOp);
+                db.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+
+            }
+
+        }
+
+        public AccOpVM GetAccountOpById(int Id)
+        {
+            var data = db.AccountOperations.Where(a => a.Id == Id ).Select(a => new AccOpVM { Id =a.Id , AccountId=a.AccountId , AccountName=a.Accounts.Name , OpName=a.OpName , OpType=a.OpType , OpValue=a.OpValue,Date=a.Date }).FirstOrDefault();
+
+            return data;
+        }
+
+        public IQueryable<AccOpVM> GetAllAccountOp()
+        {
+            var data = db.AccountOperations.Select(a => new AccOpVM { Id = a.Id, AccountId = a.AccountId, AccountName = a.Accounts.Name, OpName = a.OpName, OpType = a.OpType, OpValue = a.OpValue, Date = a.Date });
+            return data;
+        }
+        public IQueryable<AccOpVM> GetAccountOpCalById( int Id ,DateTime start ,DateTime end)
+        {
+            var data = db.AccountOperations.Where(a=>  a.Id == Id && (a.Date >=start && a.Date <= end)).Select(a => new AccOpVM { Id = a.Id, AccountId = a.AccountId, AccountName = a.Accounts.Name, OpName = a.OpName, OpType = a.OpType, OpValue = a.OpValue, Date = a.Date });
+            return data;
+        }
+        #endregion 
+
     }
 }

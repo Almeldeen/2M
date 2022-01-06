@@ -16,6 +16,7 @@ namespace BLL.Services.AccServies
         {
             this.repo = repo;
         }
+        #region Acc
         public bool AddAccount(AccVM Acc)
         {
             return repo.AddAccount(Acc);
@@ -40,5 +41,40 @@ namespace BLL.Services.AccServies
         {
             return repo.GetAccountById(Id);
         }
+        #endregion
+        #region AccOp
+        public bool AddAccountOp(AccOpVM AccOp)
+        {
+            return repo.AddAccountOp(AccOp);
+
+        }
+
+        public bool DeleteAccountOp(int Id)
+        {
+            return repo.DeleteAccountOp(Id);
+
+        }
+
+        public bool EditAccountOp(AccOpVM AccOp)
+        {
+            return repo.EditAccountOp(AccOp);
+
+        }
+
+        public AccOpVM GetAccountOpById(int Id)
+        {
+            return repo.GetAccountOpById(Id);
+        }
+
+        public IQueryable<AccOpVM> GetAllAccountOp()
+        {
+            return repo.GetAllAccountOp();
+        }
+        public IQueryable<AccOpVM> GetAccountOpCalById(int Id, DateTime start, DateTime end)
+        {
+            return repo.GetAccountOpCalById(Id, start, end);
+        }
+        #endregion
+
     }
 }
