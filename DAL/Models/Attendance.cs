@@ -15,7 +15,7 @@ namespace DAL.Models
         public DateTime Date { get; set; }
         public bool Absent { get; set; }
         public decimal Deduction { get; set; }
-        [ForeignKey("EmpId")]
+        [ForeignKey("Employee")]
         public int EmpId { get; set; }
         public Employee Employee { get; set; }
     }

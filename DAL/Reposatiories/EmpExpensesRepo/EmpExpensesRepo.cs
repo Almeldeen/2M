@@ -101,14 +101,14 @@ namespace DAL.Reposatiories.EmpExpensesRepo
 
         }
 
-        public IQueryable<EmpExpensesVM> GetAllEmpEmpExpenses()
+        public IQueryable<EmpExpensesVM> GetAllEmpExpenses()
         {
             var data = db.EmpExpenses.Select(a => new EmpExpensesVM { EmpId =a.EmpId,EmpName=a.Employee.EmpName ,ExpenId=a.ExpenId,ExpensesType=a.ExpensesType,Note=a.Note,Value=a.Value });
 
             return data;
         }
 
-        public EmpExpensesVM GetEmpById(int Id)
+        public EmpExpensesVM GetEmpExpensesById(int Id)
         {
             var data = db.EmpExpenses.Where(a => a.ExpenId == Id).Select(a => new EmpExpensesVM { EmpId = a.EmpId, EmpName = a.Employee.EmpName, ExpenId = a.ExpenId, ExpensesType = a.ExpensesType, Note = a.Note, Value = a.Value }).FirstOrDefault();
             return data;

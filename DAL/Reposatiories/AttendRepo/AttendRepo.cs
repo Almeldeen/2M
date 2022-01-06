@@ -66,9 +66,10 @@ namespace DAL.Reposatiories.AttendRepo
             return data;
         }
 
-        public AttendVM GetAttendById(int Id)
+        public IQueryable<AttendVM> GetAttendById(int Id,DateTime start,DateTime end)
         {
-            throw new NotImplementedException();
+            var data = db.Attendances.Where(x => x.EmpId == Id && (x.Date >= start && x.Date <= end)).Select(x => new AttendVM { EmpName = x.Employee.EmpName, Date = x.Date, Absent = x.Absent, Deduction = x.Deduction,Salary=x.Employee.OrgSalary });
+            return data;
         }
     }
 }

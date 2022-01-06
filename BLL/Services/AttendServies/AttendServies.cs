@@ -21,7 +21,7 @@ namespace BLL.Services.AttendServies
         }
         public int AddAttend(AttendVM attend)
         {
-            if (attend.AbcentNum>4)
+            if (attend.AbcentNum>=4)
             {
                 var Emp = Emprepo.GetEmpById(attend.EmpId);
                 attend.Deduction = Emp.OrgSalary-(Emp.OrgSalary - ((Emp.OrgSalary / 30) * attend.Deduction));
@@ -34,9 +34,9 @@ namespace BLL.Services.AttendServies
             return repo.GetAllAttend(date);
         }
 
-        public AttendVM GetAttendById(int Id)
+        public IQueryable<AttendVM> GetAttendById(int Id, DateTime start, DateTime end)
         {
-            throw new NotImplementedException();
+            return repo.GetAttendById(Id,start,end);
         }
     }
 }

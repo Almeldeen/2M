@@ -15,7 +15,7 @@ namespace DAL.Models
         public byte ExpensesType { get; set; }
         public decimal Value { get; set; }
         public string Note { get; set; }
-        [ForeignKey("EmpId")]
+        [ForeignKey("Employee")]
         public int EmpId { get; set; }
         public Employee Employee { get; set; }
     }

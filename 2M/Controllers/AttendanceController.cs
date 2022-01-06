@@ -1,5 +1,6 @@
 ﻿using BLL.Helper;
 using BLL.Services.AttendServies;
+using BLL.Services.EmpServies;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,12 +14,12 @@ namespace _2M.Controllers
     public class AttendanceController : Controller
     {
         private readonly IAttendServies servies;
-       
+        private readonly IEmpServies emp;
 
-        public AttendanceController(IAttendServies servies)
+        public AttendanceController(IAttendServies servies,IEmpServies emp)
         {
             this.servies = servies;
-          
+            this.emp = emp;
         }
         public IActionResult Index()
         {
@@ -42,7 +43,12 @@ namespace _2M.Controllers
         }
         public IActionResult ViewEmpAttend()
         {
+            ViewBag.Emp = emp.GetAllEmp().ToList();
             return View();
+        }
+        public IActionResult GetAttendById(int Id, DateTime start, DateTime end)
+        {
+            return Json(servies.GetAttendById(Id, start, end).ToList());
         }
 
     }

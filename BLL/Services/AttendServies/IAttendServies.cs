@@ -11,7 +11,7 @@ namespace BLL.Services.AttendServies
     {
         int AddAttend(AttendVM Emp);
 
-        AttendVM GetAttendById(int Id);
+        IQueryable<AttendVM> GetAttendById(int Id, DateTime start, DateTime end);
         IQueryable<AttendDetailsVM> GetAllAttend(DateTime date);
     }
 }

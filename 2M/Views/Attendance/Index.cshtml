@@ -130,12 +130,8 @@
 
                     if (result == 1) {
                         swal("تم الحفظ بنجاح", "", "success");
-                        $('#Name').val("");
-                        $('#Phone').val("");
-                        $('#Salary').val("");
-                        $('#Jop').val(-1);
-
-                        LoadALL(1);
+                        
+                        $("#tr_" + id).remove();
                     }
                     else if (result == 2) {
                         swal("تم تسجيل الحضور اليوم لهذا الموظف من قبل ", "", "error");
@@ -148,91 +144,8 @@
         }
 
     }
-    function GetById(id) {
-        $.ajax({
-            url: "/Employee/GetEmpById?Id=" + id,
-            type: "GET",
-            dataType: "json",
-            success: function (result) {
-
-                $('#hidnId').val(id);
-                $('#Name').val(result.empName);
-                $('#Phone').val(result.phoneNumber);
-                $('#Salary').val(result.orgSalary);
-                $('#Jop').val(result.jopId);
-                $('#add').hide();
-                $('#edit').show();
-
-            }
-        });
-
-
-
-
-    }
-    function Update() {
-        var id = $('#hidnId').val();
-        var Name = $('#Name').val();
-        var Phone = $('#Phone').val();
-        var Salary = $('#Salary').val();
-        var Jop = $('#Jop').val();
-        $.ajax({
-            url: "/Employee/EditEmp?EmpId=" + id + "&EmpName=" + Name + "&PhoneNumber=" + Phone + "&OrgSalary=" + Salary + "&JopId=" + Jop,
-            type: "POST",
-
-            dataType: 'json',
-
-            success: function (result) {
-
-                if (result == true) {
-                    swal("تم الحفظ بنجاح", "", "success");
-                    $('#Name').val("");
-                    $('#Phone').val("");
-                    $('#Salary').val("");
-                    $('#Jop').val(-1);
-                    LoadALL(1);
-                    $('#add').show();
-                    $('#edit').hide();
-                }
-                else {
-                    swal("حدث خطأ", "", "error");
-                }
-            }
-        });
-    }
-    function Delet(id) {
-        swal({
-            title: 'هل انت متأكد؟',
-            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
-            icon: 'warning',
-            buttons: true,
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-                if (willDelete) {
-                    $.ajax({
-                        url: "/Employee/DeleteEmp?Id=" + id,
-                        type: "POST",
-                        dataType: 'json',
-                        success: function (result) {
-
-                            if (result == true) {
-                                swal("تم الحذف بنجاح", {
-                                    icon: "success",
-                                });
-                                LoadALL(1);
-                            }
-                            else {
-                                swal("حدث خطا او تم استخدام البيانات من قبل", "", "error");
-                            }
-                        }
-                    });
-
-                }
-            });
-    }
     function SeedDataTabel(data) {
-        let html = '<tr><td class="align-middle text-center text-lg" >' + data.empName + '</td >' +
+        let html = '<tr id="tr_' + data.empId + '"><td class="align-middle text-center text-lg" >' + data.empName + '</td >' +
             '<td class="align-middle text-center text-lg" >' + data.jopName + '</td >' +
             '<td class="align-middle text-center text-lg" ><div class="form-check form-check-inline">' +
             '<input class="form-check-input" type = "radio" name ="Att_' + data.empId + '" id = "inlineRadio1" value = "true" >' +

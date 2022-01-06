@@ -4,14 +4,16 @@ using DAL.Contanier;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplacationDbContext))]
-    partial class ApplacationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220105223407_llll")]
+    partial class llll
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,9 +87,12 @@ namespace DAL.Migrations
                     b.Property<int>("EmpId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("EmployeeEmpId")
+                        .HasColumnType("int");
+
                     b.HasKey("AttId");
 
-                    b.HasIndex("EmpId");
+                    b.HasIndex("EmployeeEmpId");
 
                     b.ToTable("Attendances");
                 });
@@ -99,9 +104,6 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("EmpId")
-                        .HasColumnType("int");
-
                     b.Property<byte>("ExpensesType")
                         .HasColumnType("tinyint");
 
@@ -112,8 +114,6 @@ namespace DAL.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("ExpenId");
-
-                    b.HasIndex("EmpId");
 
                     b.ToTable("EmpExpenses");
                 });
@@ -418,20 +418,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Employee", "Employee")
                         .WithMany("Attendances")
-                        .HasForeignKey("EmpId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("DAL.Models.EmpExpenses", b =>
-                {
-                    b.HasOne("DAL.Models.Employee", "Employee")
-                        .WithMany("EmpExpenses")
-                        .HasForeignKey("EmpId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeEmpId");
 
                     b.Navigation("Employee");
                 });
@@ -515,8 +502,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Models.Employee", b =>
                 {
                     b.Navigation("Attendances");
-
-                    b.Navigation("EmpExpenses");
                 });
 
             modelBuilder.Entity("DAL.Models.Jop", b =>

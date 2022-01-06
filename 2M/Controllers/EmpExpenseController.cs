@@ -1,5 +1,6 @@
 ﻿using BLL.Helper;
 using BLL.Services.EmpExpensesService;
+using BLL.Services.EmpServies;
 using DAL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,16 +13,19 @@ namespace _2M.Controllers
     public class EmpExpenseController : Controller
     {
         private IEmpExpensesServies servies;
+        private readonly IEmpServies emp;
 
-        public EmpExpenseController(IEmpExpensesServies servies)
+        public EmpExpenseController(IEmpExpensesServies servies, IEmpServies emp)
         {
             this.servies = servies;
+            this.emp = emp;
         }
         public IActionResult Index()
         {
+            ViewBag.Emp = emp.GetAllEmp().ToList();
             return View();
         }
-        public IActionResult AddAccount(EmpExpensesVM EmpExpenses)
+        public IActionResult AddEmpExpenses(EmpExpensesVM EmpExpenses)
         {
             var res = servies.AddEmpExpenses(EmpExpenses);
             return Json(res);

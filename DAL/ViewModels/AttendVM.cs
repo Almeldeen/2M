@@ -13,6 +13,7 @@ namespace DAL.ViewModels
         public string DateStr { get; set; }
         public bool Absent { get; set; }
         public decimal Deduction { get; set; }
+        public decimal Salary { get; set; }
        
         public int EmpId { get; set; }
         public string EmpName{ get; set; }
