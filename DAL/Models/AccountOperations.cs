@@ -13,6 +13,7 @@ namespace DAL.Models
         [Key]
         public int Id { get; set; }
         public string OpName { get; set; }
+        public string OpType { get; set; }
         public decimal OpValue { get; set; }
         public DateTime Date { get; set; }
         [ForeignKey("AccountId")]
