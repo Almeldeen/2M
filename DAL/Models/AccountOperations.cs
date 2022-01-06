@@ -16,7 +16,7 @@ namespace DAL.Models
         public byte OpType { get; set; }
         public decimal OpValue { get; set; }
         public DateTime Date { get; set; }
-        [ForeignKey("AccountId")]
+        [ForeignKey("Accounts")]
         public int AccountId { get; set; }
         public Accounts Accounts { get; set; }
 

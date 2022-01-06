@@ -16,6 +16,7 @@ namespace DAL.ViewModels
        
         public int AccountId { get; set; }
         public string AccountName { get; set; }
+        public string AccountValue { get; set; }
         
     }
 }

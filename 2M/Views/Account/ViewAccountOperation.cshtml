@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "كشف عمليات الحسابات";
+
+}
+<div class="card my-4">
+
+    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3 mx-4 ">كشف عمليات الحسابات</h6>
+        </div>
+    </div>
+    <div class="card-body px-0 pb-2">
+        <label for="Acc" class="form-label">اسم الحساب</label>
+        <select class="form-control border me-6 " id="Acc">
+            <option value="-1">اختر حساب</option>
+            @foreach (var item in ViewBag.Acc)
+            {
+                <option value="@item.AccountId">@item.Name</option>
+            }
+        </select>
+        <small id="EmpError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون حساب</small>
+        <div class="form-group me-6">
+            <label for="start">من</label>
+            <div class="input-group">
+                <input name="PassportExpDate" type="date" class=" drgpicker" id="start" aria-describedby="button-addon2">
+
+            </div>
+        </div>
+        <div class="form-group me-6">
+            <label for="end">الي</label>
+            <div class="input-group">
+                <input name="PassportExpDate" type="date" class=" drgpicker" id="end" aria-describedby="button-addon2">
+
+            </div>
+        </div>
+        <div class="form-control input-group-append">
+            <button onclick="LoadALL()" id="add" type="button" class="btn bg-gradient-dark mb-0">عرض</button>
+        </div>
+    </div>
+    <div class="card-body px-0 pb-2">
+        <div id="divdata" class="table-responsive p-0">
+            <table id="tbdate" class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class=" text-center">اسم الحساب</th>
+                        <th class=" text-center">اليوم</th>
+                        <th class=" text-center">نوع العملية</th>
+                        <th class=" text-center">القيمة</th>
+                    </tr>
+                </thead>
+                <tbody id="Data">
+                </tbody>
+            </table>
+            <table id="tbdate" class="table  align-items-center mb-0">
+                <thead class=" table-dark">
+                    <tr>
+                        <th class=" text-center">قيمة الحساب</th>
+                        <th class=" text-center">مجموع العمليات</th>
+                        <th class=" text-center" colspan="2">الحساب بعد خصم العمليات</th>
+
+                    </tr>
+                </thead>
+                <tbody id="TotalData">
+                </tbody>
+            </table>
+            <!-- pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+
+    });
+
+    function LoadALL() {
+        alert("here");
+        let Id = $('#Acc').val();
+        let start = $('#start').val();
+        let end = $('#end').val();
+        $.ajax({
+            url: "/Account/GetAccountOpCalById?Id=" + Id + "&start=" + start + "&end=" + end,
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                $(".pagination").empty()
+                $("#Data").empty();
+                let sumOpValue = 0;
+                let Value = 0;
+                $.each(result, function (key, item) {
+                    sumOpValue += item.opValue;
+                    Value = item.accountValue;
+                        $("#Data").append(SeedDataTabel(item));
+                });
+
+                let TotalData = '<tr><td class="align-middle text-center text-lg" >' + Value+'</td>' +
+                    '<td class="align-middle text-center text-lg" >' + sumOpValue + '</td>' +
+                    '<td class="align-middle text-center text-lg" colspan="2">' + (Value - sumOpValue) + ' </td></tr >';
+                $("#TotalData").html(TotalData);
+            }
+        });
+    }
+
+    function SeedDataTabel(data) {
+        let html = '<tr><td class="align-middle text-center text-lg" >' + data.accountName + '</td ><td class="align-middle text-center text-lg" >' + data.date.substring(0, 10)+ '</td >';
+        html += data.opType == 2 ? '<td class="align-middle text-center text-lg" ><span class="badge badge-sm bg-gradient-success">ايداع</span></td >' : '<td class="align-middle text-center text-lg" ><span class="badge badge-sm bg-gradient-secondary">سحب</span></td >';
+        html += '<td class="align-middle text-center text-lg" >' + data.opValue + '</td >'
+        return html;
+    }
+
+</script>
