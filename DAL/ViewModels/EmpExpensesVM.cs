@@ -12,6 +12,7 @@ namespace DAL.ViewModels
         public byte ExpensesType { get; set; }
         public decimal Value { get; set; }
         public string Note { get; set; }
+        public DateTime Date { get; set; }
       
         public int EmpId { get; set; }
         public string EmpName { get; set; }

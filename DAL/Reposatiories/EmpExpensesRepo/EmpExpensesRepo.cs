@@ -113,5 +113,12 @@ namespace DAL.Reposatiories.EmpExpensesRepo
             var data = db.EmpExpenses.Where(a => a.ExpenId == Id).Select(a => new EmpExpensesVM { EmpId = a.EmpId, EmpName = a.Employee.EmpName, ExpenId = a.ExpenId, ExpensesType = a.ExpensesType, Note = a.Note, Value = a.Value }).FirstOrDefault();
             return data;
         }
+        public IQueryable<EmpCalVM> GetAllEmpcallById(  int Id , DateTime start , DateTime end)
+        {
+            var data = db.EmpExpenses.Where(a => a.EmpId == Id &&( a.Date >= start && a.Date <= end) ).Select(a => new EmpCalVM {  EmpCalId =a.Employee.EmpId , Empsalary=a.Employee.OrgSalary , EmpName=a.Employee.EmpName,  Date=a.Date,  EmpAbssalary=db.Attendances.Where(x => x.EmpId ==a.EmpId).Select(x => x.Deduction ).Sum(), Empvalue = a.Value , ExpensesType=a.ExpensesType  });
+     
+            return data;
+        }
+
     }
 }

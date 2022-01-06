@@ -14,5 +14,7 @@ namespace BLL.Services.EmpExpensesService
         bool DeleteEmpExpenses(int Id);
         EmpExpensesVM GetEmpExpensesById(int Id);
         IQueryable<EmpExpensesVM> GetAllEmpExpenses();
+        IQueryable<EmpCalVM> GetAllEmpcallById(int Id, DateTime start, DateTime end);
+
     }
 }

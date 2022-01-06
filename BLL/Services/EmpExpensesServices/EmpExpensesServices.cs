@@ -32,6 +32,11 @@ namespace BLL.Services.EmpExpensesServices
             return repo.EditEmpExpenses(EmpExpenses);
         }
 
+        public IQueryable<EmpCalVM> GetAllEmpcallById(int Id, DateTime start, DateTime end)
+        {
+            return repo.GetAllEmpcallById( Id, start,  end);
+        }
+
         public IQueryable<EmpExpensesVM> GetAllEmpExpenses()
         {
             return repo.GetAllEmpExpenses();
