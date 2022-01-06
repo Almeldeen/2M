@@ -14,9 +14,8 @@ namespace DAL.Models
         public int OpeId { get; set; }
         public decimal TotalValue { get; set; }
         public decimal Payment { get; set; }
-        public byte OpType { get; set; }
-
-        public decimal theRest { get; set; }
+        public decimal TheRest { get; set; }
+        public string Note { get; set; }
         public DateTime Date { get; set; }
         [ForeignKey("Suppliers")]
         public int SuppId { get; set; }

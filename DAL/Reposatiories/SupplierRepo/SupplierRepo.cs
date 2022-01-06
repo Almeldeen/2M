@@ -193,13 +193,13 @@ namespace DAL.Reposatiories.SupplierRepo
 
         public IQueryable<SupOpVM> GetAllSupplierOp()
         {
-            var data = db.SupplierOperations.Select(a => new SupOpVM { OpeId=a.OpeId , SuppName=a.Suppliers.SuppName , Date=a.Date, OpType=a.OpType , Payment=a.Payment , SuppId=a.SuppId , theRest=a.theRest, TotalValue=a.TotalValue});
+            var data = db.SupplierOperations.Select(a => new SupOpVM { OpeId=a.OpeId , SuppName=a.Suppliers.SuppName , Date=a.Date , Payment=a.Payment , SuppId=a.SuppId , TheRest=a.TheRest, TotalValue=a.TotalValue,Note=a.Note});
             return data;
         }
 
         public SupOpVM GetSupplierOpById(int Id)
         {
-            var data = db.SupplierOperations.Where(a => a.OpeId == Id).Select(a => new SupOpVM { OpeId = a.OpeId, SuppName = a.Suppliers.SuppName, Date = a.Date, OpType = a.OpType, Payment = a.Payment, SuppId = a.SuppId, theRest = a.theRest, TotalValue = a.TotalValue }).FirstOrDefault();
+            var data = db.SupplierOperations.Where(a => a.OpeId == Id).Select(a => new SupOpVM { OpeId = a.OpeId, SuppName = a.Suppliers.SuppName, Date = a.Date, Payment = a.Payment, SuppId = a.SuppId, TheRest = a.TheRest, TotalValue = a.TotalValue,Note=a.Note }).FirstOrDefault();
             return data;
         }
 #endregion

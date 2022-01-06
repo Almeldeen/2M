@@ -11,12 +11,12 @@ namespace DAL.ViewModels
         public int OpeId { get; set; }
         public decimal TotalValue { get; set; }
         public decimal Payment { get; set; }
-        public byte OpType { get; set; }
 
-        public decimal theRest { get; set; }
+        public decimal TheRest { get; set; }
         public DateTime Date { get; set; }
         
         public int SuppId { get; set; }
         public string SuppName { get; set; }
+        public string Note { get; set; }
     }
 }

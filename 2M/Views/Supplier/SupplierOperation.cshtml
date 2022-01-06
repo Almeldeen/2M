@@ -1,0 +1,377 @@
+﻿
+
+
+@{
+    ViewBag.Title = "عمليات الموردين";
+
+}
+
+<div class="col-12">
+    <form>
+
+        <input style="display:none" id="hidnId" value="" />
+        <div class="form-group ">
+            <label for="Supp" class="form-label">اسم المورد</label>
+            <select class="form-control border " id="Supp">
+                <option value="-1">اختر المورد</option>
+                @foreach (var item in ViewBag.Sup)
+                {
+                    <option value="@item.SuppId">@item.SuppName</option>
+                }
+            </select>
+            <small id="EmpError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون مورد</small>
+            <hr />
+            <label for="value" class="form-label">القيمة</label>
+            <input type="number" id="value" class="form-control font-weight-bold" placeholder="القيمة..." />
+            <small id="valueError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون القيمة</small>
+            <hr />
+            <label for="value" class="form-label">المدفوع</label>
+            <input type="number" id="Paied" class="form-control font-weight-bold" placeholder="المدفوع..." />
+            <small id="valueError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون المدفوع</small>
+            <hr />
+            <label for="value" class="form-label">المتبقي</label>
+            <input disabled type="number" id="rest" class="form-control font-weight-bold" placeholder="القيمة..." />
+            <hr />
+            <div class="form-group ">
+                <label for="date">التاريخ</label>
+                <div class="input-group">
+                    <input name="PassportExpDate" type="date" class=" drgpicker" id="date" aria-describedby="button-addon2">
+
+
+                </div>
+                <small id="dateError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون التاريخ</small>
+            </div>
+            <hr />
+            <label for="Note" class="form-label">ملاحظات</label>
+            <textarea class="form-control font-weight-bold" id="Note" placeholder="ملاحظات..."></textarea>
+        </div>
+
+
+
+        <div class="form-control input-group-append">
+            <button onclick="Add()" id="add" type="button" class="btn bg-gradient-dark mb-0">اضافة مصروف</button>
+            <button onclick="Update()" id="edit" style="display:none" type="button" class="btn bg-gradient-dark ">تعديل</button>
+        </div>
+    </form>
+    <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3 mx-4 ">جدول عمليات الحسابات</h6>
+            </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class=" text-center">اسم المورد</th>
+                            <th class=" text-center">التاريخ</th>
+                            <th class=" text-center">القيمة</th>
+                            <th class=" text-center">المدفوع</th>
+                            <th class=" text-center">المتبقي</th>
+                            <th class=" text-center">ملاحظات</th>
+                            <th class=" text-center "></th>
+                        </tr>
+                    </thead>
+                    <tbody id="Data">
+                    </tbody>
+                </table>
+                <!-- pagination -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        LoadALL(1);
+        $('#Paied').change(function () {
+            $('#rest').val(($('#value').val() - $('#Paied').val()));
+
+        });
+
+
+    });
+    var currPage = 0;
+    function LoadALL(pageNum) {
+        $.ajax({
+            url: "/Supplier/GetAllSupplierOp?pageNumber=" + pageNum + "&pageSize=" + 5,
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                $(".pagination").empty();
+                $("#Data").empty();
+                $.each(result.data, function (key, item) {
+                    $("#Data").append(SeedDataTabel(item));
+                });
+                currPage = result.currentPage;
+                PaggingTemplate(result.totalPages, result.currentPage);
+
+            }
+
+
+        });
+    }
+    function Add() {
+        var Supp = $('#Supp').val();
+        var value = $('#value').val();
+        var Paied = $('#Paied').val();
+        var rest = $('#rest').val();
+        var Note = $('#Note').val();
+        var date = $('#date').val();
+        $('.error').hide();
+        if (Supp == "" || Supp == null) {
+            $('#SuppError').show();
+        }
+        else if (value == "" || value == null) {
+            $('#valueError').show();
+        }
+        else if (Paied == "" || Paied == null) {
+            $('#PaiedError').show();
+        }
+        else if (rest == "" || rest == null) {
+            $('#restError').show();
+        }
+        else if (date == "" || date == null) {
+            $('#dateError').show();
+        }
+        else {
+            $.ajax({
+                url: "/Supplier/AddSupplierOp?SuppId=" + Supp + "&TotalValue=" + value + "&Payment=" + Paied + "&TheRest=" + Paied + "&Note=" + Note + "&Date=" + date,
+                type: "POST",
+                success: function (result) {
+
+                    if (result == true) {
+                        swal("تم الحفظ بنجاح", "", "success");
+                        $('#Supp').val(-1);
+                        $('#value').val("");
+                        $('#Paied').val("");
+                        $('#rest').val("");
+                        $('#Note').val("");
+
+                        LoadALL(1);
+                    }
+                    else {
+                        swal("حدث خطأ", "", "error");
+                    }
+                },
+            });
+        }
+
+    }
+    function GetById(id) {
+        $.ajax({
+            url: "/Supplier/GetSupplierOpById?Id=" + id,
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+
+                $('#hidnId').val(id);
+                $('#Supp').val(result.suppId);
+                $('#value').val(result.totalValue);
+                $('#Paied').val(result.payment);
+                $('#rest').val(result.theRest);
+                console.log(result.date);
+                $('#date').val(result.date);
+                $('#Note').val(result.note);
+                $('#add').hide();
+                $('#edit').show();
+
+            }
+        });
+
+
+
+
+    }
+    function Update() {
+        var id = $('#hidnId').val();
+        var value = $('#value').val();
+        var Paied = $('#Paied').val();
+        var rest = $('#rest').val();
+        var Note = $('#Note').val();
+        var date = $('#date').val();
+        $('.error').hide();
+        if (Supp == "" || Supp == null) {
+            $('#SuppError').show();
+        }
+        else if (value == "" || value == null) {
+            $('#valueError').show();
+        }
+        else if (Paied == "" || Paied == null) {
+            $('#PaiedError').show();
+        }
+        else if (rest == "" || rest == null) {
+            $('#restError').show();
+        }
+        else if (date == "" || date == null) {
+            $('#dateError').show();
+        }
+        else {
+            $.ajax({
+                url: "/Supplier/EditSupplierOp?OpeId=" + id + "&SuppId=" + Supp + "&TotalValue=" + value + "&Payment=" + Paied + "&TheRest=" + Paied + "&Note=" + Note + "&Date=" + date,
+                type: "POST",
+
+                dataType: 'json',
+
+                success: function (result) {
+
+                    if (result == true) {
+                        swal("تم الحفظ بنجاح", "", "success");
+                        $('#Supp').val(-1);
+                        $('#value').val("");
+                        $('#Paied').val("");
+                        $('#rest').val("");
+                        $('#Note').val("");
+                        LoadALL(1);
+                        $('#add').show();
+                        $('#edit').hide();
+                    }
+                    else {
+                        swal("حدث خطأ", "", "error");
+                    }
+                }
+            });
+        }
+
+    }
+    function Delet(id) {
+        swal({
+            title: 'هل انت متأكد؟',
+            text: "اذا قمت بمسح هذا لن تستطيع استرجاعه ثانيتا!",
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: "/Supplier/DeleteSupplierOp?Id=" + id,
+                        type: "POST",
+                        dataType: 'json',
+                        success: function (result) {
+
+                            if (result == true) {
+                                swal("تم الحذف بنجاح", {
+                                    icon: "success",
+                                });
+                                LoadALL(1);
+                            }
+                            else {
+                                swal("حدث خطا او تم استخدام البيانات من قبل", "", "error");
+                            }
+                        }
+                    });
+
+                }
+            });
+    }
+    function SeedDataTabel(data) {
+        let html = '<tr><td class="align-middle text-center text-lg" >' + data.suppName + '</td >';
+        html += '<td class="align-middle text-center text-lg" >' + data.date.substring(0, 10) + '</td ><td class="align-middle text-center text-lg" >' + data.totalValue + '</td ><td class="align-middle text-center text-lg" >' + data.payment + '</td ><td class="align-middle text-center text-lg" >' + data.theRest + '</td >';
+        html += '<td class="align-middle text-center text-lg" >' + data.note + '</td >' +
+            '<td class="align-middle"><a href="javascript:;" onclick="GetById(' + data.opeId + ')" class=" btn bg-gradient-info font-weight-bold  " data-toggle="tooltip" data-original-title="Edit user">تعديل</a>|' +
+            '<a href="javascript:;"onclick="Delet(' + data.opeId + ')" class=" btn btn-danger font-weight-bold " data-toggle="tooltip" data-original-title="Edit user">حذف</a>';
+        //html += data.theRest > 0 ? '|<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">السداد</button >' : "";
+        html += '</td ></tr >'
+
+        return html;
+    }
+    function PaggingTemplate(totalPage, currentPage) {
+
+        var template = "";
+        var TotalPages = totalPage;
+        var CurrentPage = currentPage;
+        var PageNumberArray = Array();
+
+
+        var countIncr = 1;
+        if (currentPage != 1) {
+
+            for (var i = currentPage - 1; i <= totalPage; i++) {
+
+                PageNumberArray[0] = currentPage - 1;
+                if (PageNumberArray[countIncr - 1] != totalPage) {
+                    PageNumberArray[countIncr] = i + 1;
+                }
+                countIncr++;
+            };
+        }
+        else {
+            for (var i = currentPage; i <= totalPage; i++) {
+
+                PageNumberArray[0] = currentPage;
+                if (totalPage != currentPage && PageNumberArray[countIncr - 1] != totalPage) {
+                    PageNumberArray[countIncr] = i + 1;
+                }
+                countIncr++;
+            };
+        }
+        PageNumberArray = PageNumberArray.slice(0, 5);
+        var FirstPage = 1;
+        var LastPage = totalPage;
+        if (totalPage != currentPage) {
+            var ForwardOne = currentPage + 1;
+        }
+        var BackwardOne = 1;
+        if (currentPage > 1) {
+            BackwardOne = currentPage - 1;
+        }
+
+        //template = "<p>" + CurrentPage + " of " + TotalPages + " pages</p>"
+        template = template + '<li class="page-item">' +
+            '<a onclick="LoadALL(' + BackwardOne + ')" class="page-link"  aria-label="Previous">' +
+            '<span aria-hidden="true">&laquo;</span>' +
+            '<span class="sr-only">Previous</span>' +
+            '</a>' +
+            '</li>';
+
+
+        var numberingLoop = "";
+        for (var i = 0; i < PageNumberArray.length; i++) {
+            if (PageNumberArray[i] == currentPage) {
+                numberingLoop = numberingLoop + '<li  class="page-item active"><a onclick="LoadALL(' + PageNumberArray[i] + ')"  class="page-link" href="#">' + PageNumberArray[i] + '</a></li>'
+            }
+            else {
+                numberingLoop = numberingLoop + '<li class="page-item"><a onclick="LoadALL(' + PageNumberArray[i] + ')"  class="page-link" href="#">' + PageNumberArray[i] + '</a></li>'
+            }
+
+        }
+        template = template + numberingLoop + '<li class="page-item">' +
+            ' <a  onclick="LoadALL(' + ForwardOne + ')" class="page-link"  aria-label="Next">' +
+            '<span aria-hidden="true">&raquo;</span>' +
+            '<span class="sr-only">Next</span>' +
+            '</a>' +
+            '</li>';
+
+        $(".pagination").append(template);
+
+
+    }
+</script>
+

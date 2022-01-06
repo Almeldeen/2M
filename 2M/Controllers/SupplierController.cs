@@ -53,7 +53,16 @@ namespace _2M.Controllers
         }
         #endregion
         #region SupOp
-
+        public IActionResult SupplierOperation()
+        {
+            ViewBag.Sup = service.GetAllSupplier();
+            return View();
+        }
+        public IActionResult ViewSupplierOperation()
+        {
+            ViewBag.Sup = service.GetAllSupplier();
+            return View();
+        }
         public IActionResult AddSupplierOp(SupOpVM SupOp)
         {
             var res = service.AddSupplierOp(SupOp);
@@ -76,7 +85,7 @@ namespace _2M.Controllers
             var pagedData = Pagination.PagedResult(res, pageNumber, pageSize);
             return Json(pagedData);
         }
-        public IActionResult GetSupplieOprById(int Id)
+        public IActionResult GetSupplierOpById(int Id)
         {
             var res = service.GetSupplierOpById(Id);
             return Json(res);
