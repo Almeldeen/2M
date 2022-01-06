@@ -22,6 +22,8 @@ namespace _2M.Controllers
         {
             return View();
         }
+        #region Sup
+
         public IActionResult AddSupplier(SupplierVM Supplier)
         {
             var res = service.AddSupplier(Supplier);
@@ -49,5 +51,36 @@ namespace _2M.Controllers
             var res = service.GetSupplierById(Id);
             return Json(res);
         }
+        #endregion
+        #region SupOp
+
+        public IActionResult AddSupplierOp(SupOpVM SupOp)
+        {
+            var res = service.AddSupplierOp(SupOp);
+            return Json(res);
+        }
+        public IActionResult EditSupplierOp(SupOpVM SupOp)
+        {
+            var res = service.EditSupplierOp(SupOp);
+            return Json(res);
+        }
+        public IActionResult DeleteSupplierOp(int Id)
+        {
+            var res = service.DeleteSupplierOp(Id);
+            return Json(res);
+        }
+        public IActionResult GetAllSupplierOp(int pageNumber = 1, int pageSize = 10)
+        {
+            var res = service.GetAllSupplierOp().ToList();
+
+            var pagedData = Pagination.PagedResult(res, pageNumber, pageSize);
+            return Json(pagedData);
+        }
+        public IActionResult GetSupplieOprById(int Id)
+        {
+            var res = service.GetSupplierOpById(Id);
+            return Json(res);
+        }
+        #endregion
     }
 }

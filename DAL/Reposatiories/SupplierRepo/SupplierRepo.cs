@@ -21,7 +21,7 @@ namespace DAL.Reposatiories.SupplierRepo
             this.mapper = mapper;
         }
 
-
+        #region Sup
         public bool AddSupplier(SupplierVM Supplier)
         {
             try
@@ -111,5 +111,97 @@ namespace DAL.Reposatiories.SupplierRepo
             var data = db.Suppliers.Where(a => a.SuppId == Id).Select(a => new SupplierVM { SuppId = a.SuppId, SuppName = a.SuppName }).FirstOrDefault();
             return data;
         }
+        #endregion
+        #region SupOp
+        public bool AddSupplierOp(SupOpVM SupOp)
+        {
+            try
+            {
+                var data = mapper.Map<SupplierOperations>(SupOp);
+                db.SupplierOperations.Add(data);
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+
+            }
+
+
+        }
+
+
+
+        public bool DeleteSupplierOp(int Id)
+        {
+            try
+            {
+                var data = db.SupplierOperations.Find(Id);
+                db.SupplierOperations.Remove(data);
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+
+            }
+
+        }
+
+        public bool EditSupplierOp(SupOpVM SupOp)
+        {
+            try
+            {
+                var data = mapper.Map<SupplierOperations>(SupOp);
+                db.Entry(data).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                int res = db.SaveChanges();
+                if (res > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+
+            }
+
+        }
+
+        public IQueryable<SupOpVM> GetAllSupplierOp()
+        {
+            var data = db.SupplierOperations.Select(a => new SupOpVM { OpeId=a.OpeId , SuppName=a.Suppliers.SuppName , Date=a.Date, OpType=a.OpType , Payment=a.Payment , SuppId=a.SuppId , theRest=a.theRest, TotalValue=a.TotalValue});
+            return data;
+        }
+
+        public SupOpVM GetSupplierOpById(int Id)
+        {
+            var data = db.SupplierOperations.Where(a => a.OpeId == Id).Select(a => new SupOpVM { OpeId = a.OpeId, SuppName = a.Suppliers.SuppName, Date = a.Date, OpType = a.OpType, Payment = a.Payment, SuppId = a.SuppId, theRest = a.theRest, TotalValue = a.TotalValue }).FirstOrDefault();
+            return data;
+        }
+#endregion
     }
 }

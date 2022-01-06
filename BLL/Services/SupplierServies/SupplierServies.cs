@@ -16,6 +16,7 @@ namespace BLL.Services.SupplierServies
         {
             this.repo = repo;
         }
+        #region Sup
         public bool AddSupplier(SupplierVM Supplier)
         {
             return repo.AddSupplier(Supplier);
@@ -40,5 +41,32 @@ namespace BLL.Services.SupplierServies
         {
             return repo.GetSupplierById(Id);
         }
+        #endregion
+        #region SupOp
+        public bool AddSupplierOp(SupOpVM SupOp)
+        {
+            return repo.AddSupplierOp(SupOp);
+        }
+
+        public bool DeleteSupplierOp(int Id)
+        {
+            return repo.DeleteSupplierOp(Id);
+        }
+
+        public bool EditSupplierOp(SupOpVM SupOp)
+        {
+            return repo.EditSupplierOp(SupOp);
+        }
+
+        public IQueryable<SupOpVM> GetAllSupplierOp()
+        {
+            return repo.GetAllSupplierOp();
+        }
+
+        public SupOpVM GetSupplierOpById(int Id)
+        {
+            return repo.GetSupplierOpById(Id);
+        }
+        #endregion
     }
 }
