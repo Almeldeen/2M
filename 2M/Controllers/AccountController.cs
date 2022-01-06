@@ -56,6 +56,11 @@ namespace _2M.Controllers
             ViewBag.Acc = servies.GetAllAccount();
             return View();
         }
+        public IActionResult ViewAccountOperation()
+        {
+            ViewBag.Acc = servies.GetAllAccount();
+            return View();
+        }
         public IActionResult AddAccountOp(AccOpVM AccOp)
         {
             var res = servies.AddAccountOp(AccOp);

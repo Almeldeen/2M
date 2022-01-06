@@ -12,10 +12,10 @@ namespace DAL.Models
     {
         [Key]
         public int Id { get; set; }
-        public string OpName { get; set; }
         public byte OpType { get; set; }
         public decimal OpValue { get; set; }
         public DateTime Date { get; set; }
+        public string Note { get; set; }
         [ForeignKey("Accounts")]
         public int AccountId { get; set; }
         public Accounts Accounts { get; set; }

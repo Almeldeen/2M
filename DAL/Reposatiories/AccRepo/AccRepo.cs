@@ -186,19 +186,19 @@ namespace DAL.Reposatiories.AccRepo
 
         public AccOpVM GetAccountOpById(int Id)
         {
-            var data = db.AccountOperations.Where(a => a.Id == Id ).Select(a => new AccOpVM { Id =a.Id , AccountId=a.AccountId , AccountName=a.Accounts.Name , OpName=a.OpName , OpType=a.OpType , OpValue=a.OpValue,Date=a.Date }).FirstOrDefault();
+            var data = db.AccountOperations.Where(a => a.Id == Id ).Select(a => new AccOpVM { Id =a.Id , AccountId=a.AccountId , AccountName=a.Accounts.Name  , OpType=a.OpType , OpValue=a.OpValue,Date=a.Date,Note=a.Note }).FirstOrDefault();
 
             return data;
         }
 
         public IQueryable<AccOpVM> GetAllAccountOp()
         {
-            var data = db.AccountOperations.Select(a => new AccOpVM { Id = a.Id, AccountId = a.AccountId, AccountName = a.Accounts.Name, OpName = a.OpName, OpType = a.OpType, OpValue = a.OpValue, Date = a.Date });
+            var data = db.AccountOperations.Select(a => new AccOpVM { Id = a.Id, AccountId = a.AccountId, AccountName = a.Accounts.Name, OpType = a.OpType, OpValue = a.OpValue, Date = a.Date,Note=a.Note });
             return data;
         }
         public IQueryable<AccOpVM> GetAccountOpCalById( int Id ,DateTime start ,DateTime end)
         {
-            var data = db.AccountOperations.Where(a=>  a.Id == Id && (a.Date >=start && a.Date <= end)).Select(a => new AccOpVM { Id = a.Id, AccountId = a.AccountId, AccountName = a.Accounts.Name, OpName = a.OpName, OpType = a.OpType, OpValue = a.OpValue, Date = a.Date });
+            var data = db.AccountOperations.Where(a=>  a.AccountId == Id && (a.Date >=start && a.Date <= end)).Select(a => new AccOpVM { Id = a.Id, AccountId = a.AccountId, AccountName = a.Accounts.Name, OpType = a.OpType, OpValue = a.OpValue, Date = a.Date });
             return data;
         }
         #endregion 
