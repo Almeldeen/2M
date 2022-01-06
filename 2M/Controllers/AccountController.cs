@@ -17,6 +17,7 @@ namespace _2M.Controllers
         {
             this.servies = servies;
         }
+        #region Account
         public IActionResult Index()
         {
             return View();
@@ -48,5 +49,13 @@ namespace _2M.Controllers
             var res = servies.GetAccountById(Id);
             return Json(res);
         }
+        #endregion
+        #region AccountOp
+        public IActionResult AccountOperation()
+        {
+            ViewBag.Acc = servies.GetAllAccount();
+            return View();
+        }
+        #endregion
     }
 }
