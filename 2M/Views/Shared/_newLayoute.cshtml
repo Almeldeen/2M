@@ -1,17 +1,4 @@
-﻿<!--
-=========================================================
-* Material Dashboard 2 - v3.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
+﻿
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -77,7 +64,31 @@
                         <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons-round opacity-10">table_view</i>
                         </div>
-                        <span class="nav-link-text me-1">الحضور والغياب</span>
+                        <span class="nav-link-text me-1">تسجيل حضور وغياب الموظفين</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-action="ViewEmpAttend" asp-controller="Attendance">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons-round opacity-10">table_view</i>
+                        </div>
+                        <span class="nav-link-text me-1">كشف حضور وغياب الموظفين</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-action="Index" asp-controller="EmpExpense">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons-round opacity-10">table_view</i>
+                        </div>
+                        <span class="nav-link-text me-1">تسجيل مصروفات الموظفين</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " asp-action="ViewEmpExpense" asp-controller="EmpExpense">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons-round opacity-10">table_view</i>
+                        </div>
+                        <span class="nav-link-text me-1">كشف مصروفات الموظفين</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -88,54 +99,7 @@
                         <span class="nav-link-text me-1">الموردين</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="~/pages/virtual-reality.html">
-                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons-round opacity-10">view_in_ar</i>
-                        </div>
-                        <span class="nav-link-text me-1">الواقع الافتراضي</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="~/pages/rtl.html">
-                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons-round opacity-10">format_textdirection_r_to_l</i>
-                        </div>
-                        <span class="nav-link-text me-1">RTL</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="~/pages/notifications.html">
-                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">notifications</i>
-                        </div>
-                        <span class="nav-link-text me-1">إشعارات</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="~/pages/profile.html">
-                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons-round opacity-10">person</i>
-                        </div>
-                        <span class="nav-link-text me-1">حساب تعريفي</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="~/pages/sign-in.html">
-                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons-round opacity-10">login</i>
-                        </div>
-                        <span class="nav-link-text me-1">تسجيل الدخول</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="~/pages/sign-up.html">
-                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons-round opacity-10">assignment</i>
-                        </div>
-                        <span class="nav-link-text me-1">اشتراك</span>
-                    </a>
-                </li>
+
             </ul>
         </div>
       

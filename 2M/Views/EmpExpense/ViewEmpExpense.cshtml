@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "كشف مصروفات للموظفين";
+
+}
+<div class="card my-4">
+
+    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3 mx-4 ">كشف مصروفات للموظفين</h6>
+        </div>
+    </div>
+    <div class="card-body px-0 pb-2">
+        <label for="Emp" class="form-label">اسم الموظف</label>
+        <select class="form-control border me-6 " id="Emp">
+            <option value="-1">اختر الموظف</option>
+            @foreach (var item in ViewBag.Emp)
+            {
+                <option value="@item.EmpId">@item.EmpName</option>
+            }
+        </select>
+        <small id="EmpError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون موظف</small>
+        <div class="form-group me-6">
+            <label for="start">من</label>
+            <div class="input-group">
+                <input name="PassportExpDate" type="date" class=" drgpicker" id="start" aria-describedby="button-addon2">
+
+            </div>
+        </div>
+        <div class="form-group me-6">
+            <label for="end">الي</label>
+            <div class="input-group">
+                <input name="PassportExpDate" type="date" class=" drgpicker" id="end" aria-describedby="button-addon2">
+
+            </div>
+        </div>
+        <div class="form-control input-group-append">
+            <button onclick="LoadALL()" id="add" type="button" class="btn bg-gradient-dark mb-0">عرض</button>
+        </div>
+    </div>
+    <div class="card-body px-0 pb-2">
+        <div id="divdata" class="table-responsive p-0">
+            <table id="tbdate" class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class=" text-center">اسم الموظف</th>
+                        <th class=" text-center">اليوم</th>
+                        <th class=" text-center">نوع المصروف</th>
+                        <th class=" text-center">قيمة المصروف</th>
+
+                    </tr>
+                </thead>
+                <tbody id="Data">
+                </tbody>
+            </table>
+            <table id="tbdate" class="table  align-items-center mb-0">
+                <thead class=" table-dark">
+                    <tr>
+                        <th class=" text-center">الراتب</th>
+                        <th class=" text-center">مجموع خصم الغياب</th>
+                        <th class=" text-center">مجموع خصم المصروفات</th>
+                        <th class=" text-center" colspan="2">الراتب بعد الخصومات</th>
+                    </tr>
+                </thead>
+                <tbody id="TotalData">
+                </tbody>
+            </table>
+            <!-- pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+
+    });
+
+    function LoadALL() {
+        let Id = $('#Emp').val();
+        let start = $('#start').val();
+        let end = $('#end').val();
+
+        $.ajax({
+            url: "/EmpExpense/GetAllEmpcallById?Id=" + Id + "&start=" + start + "&end=" + end,
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                $(".pagination").empty()
+                $("#Data").empty();
+                let sumvalue = 0;
+                let salary = 0;
+                let absesalary = 0;
+                $.each(result, function (key, item) {
+                    sumvalue += item.empvalue;
+                    salary = item.empsalary;
+                    absesalary = item.empAbssalary;
+                        $("#Data").append(SeedDataTabel(item));
+                });
+
+                let TotalData = '<tr><td class="align-middle text-center text-lg" >' + salary + '</td>' +
+                    '<td class="align-middle text-center text-lg" >' + absesalary + '</td>' +
+                    '<td class="align-middle text-center text-lg" >' + sumvalue + '</td>' +
+                    '<td class="align-middle text-center text-lg" colspan="2">' + (salary - (absesalary + sumvalue)) + ' </td></tr >';
+                $("#TotalData").html(TotalData);
+            }
+        });
+    }
+
+    function SeedDataTabel(data) {
+        console.log(data.axpensesType);
+        let html = '<tr><td class="align-middle text-center text-lg" >' + data.empName + '</td ><td class="align-middle text-center text-lg" >' + data.date.substring(0, 10)+ '</td >';
+        html += data.expensesType == 1 ? '<td class="align-middle text-center text-lg" >سلفة</td >' : data.axpensesType == 2 ? '<td class="align-middle text-center text-lg" >CL</td >' : '<td class="align-middle text-center text-lg" >اخري</td >';
+        html += '<td class="align-middle text-center text-lg" >' + data.empvalue + '</td >'
+        return html;
+    }
+
+</script>

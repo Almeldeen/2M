@@ -103,7 +103,7 @@ namespace DAL.Reposatiories.EmpExpensesRepo
 
         public IQueryable<EmpExpensesVM> GetAllEmpExpenses()
         {
-            var data = db.EmpExpenses.Select(a => new EmpExpensesVM { EmpId =a.EmpId,EmpName=a.Employee.EmpName ,ExpenId=a.ExpenId,ExpensesType=a.ExpensesType,Note=a.Note,Value=a.Value });
+            var data = db.EmpExpenses.Select(a => new EmpExpensesVM { EmpId =a.EmpId,EmpName=a.Employee.EmpName ,ExpenId=a.ExpenId,ExpensesType=a.ExpensesType,Note=a.Note,Value=a.Value,Date=a.Date });
 
             return data;
         }

@@ -34,6 +34,14 @@
             <input type="number" id="value" class="form-control font-weight-bold" placeholder="القيمة..." />
             <small id="valueError" style="display:none" class="text-danger  error">لايمكنك الاضافة بدون القيمة</small>
             <hr />
+            <div class="form-group ">
+                <label for="date">التاريخ</label>
+                <div class="input-group">
+                    <input name="PassportExpDate" type="date" class=" drgpicker" id="date" aria-describedby="button-addon2">
+
+                </div>
+            </div>
+            <hr />
             <label for="Note" class="form-label">ملاحظات</label>
             <textarea class="form-control font-weight-bold" id="Note" placeholder="ملاحظات..."></textarea>
         </div>
@@ -59,6 +67,7 @@
                             <th class=" text-center">اسم الموظف</th>
                             <th class=" text-center">نوع المصروف</th>
                             <th class=" text-center">القيمة</th>
+                            <th class=" text-center">التاريخ</th>
                             <th class=" text-center">ملاحظات</th>
                             <th class=" text-center "></th>
                         </tr>
@@ -108,7 +117,7 @@
         var Expens = $('#Expens').val();
         var value = $('#value').val();
         var Note = $('#Note').val();
-
+        var date = $('#date').val();
         $('.error').hide();
         if (EmpId == "" || EmpId == null) {
             $('#EmpError').show();
@@ -119,9 +128,12 @@
         else if (value == "" || value == null) {
             $('#valueError').show();
         }
+        else if (date == "" || date == null) {
+            $('#dateError').show();
+        }
         else {
             $.ajax({
-                url: "/EmpExpense/AddEmpExpenses?EmpId=" + EmpId + "&ExpensesType=" + Expens + "&Value=" + value + "&Note=" + Note ,
+                url: "/EmpExpense/AddEmpExpenses?EmpId=" + EmpId + "&ExpensesType=" + Expens + "&Value=" + value + "&Note=" + Note + "&Date=" + date ,
                 type: "POST",
                 success: function (result) {
 
@@ -170,7 +182,7 @@
         var Expens = $('#Expens').val();
         var value = $('#value').val();
         var Note = $('#Note').val();
-
+        var date = $('#date').val();
         $('.error').hide();
         if (EmpId == "" || EmpId == null) {
             $('#EmpError').show();
@@ -181,9 +193,12 @@
         else if (value == "" || value == null) {
             $('#valueError').show();
         }
+        else if (date == "" || date == null) {
+            $('#dateError').show();
+        }
         else {
             $.ajax({
-                url: "/EmpExpense/EditEmpExpenses?ExpenId=" + id + "&EmpId=" + EmpId + "&ExpensesType=" + Expens + "&Value=" + value + "&Note=" + Note,
+                url: "/EmpExpense/EditEmpExpenses?ExpenId=" + id + "&EmpId=" + EmpId + "&ExpensesType=" + Expens + "&Value=" + value + "&Note=" + Note +"&Date=" + date,
                 type: "POST",
 
                 dataType: 'json',
@@ -242,7 +257,7 @@
     function SeedDataTabel(data) {
         let html = '<tr><td class="align-middle text-center text-lg" >' + data.empName + '</td >';
         html += data.expensesType == 1 ? '<td class="align-middle text-center text-lg" >سلف</td >' : data.expensesType == 2 ? '<td class="align-middle text-center text-lg" >CL</td >' :'<td class="align-middle text-center text-lg" >اخري</td >';
-        html += '<td class="align-middle text-center text-lg" >' + data.value + '</td >';
+        html += '<td class="align-middle text-center text-lg" >' + data.value + '</td ><td class="align-middle text-center text-lg" >' + data.date.substring(0, 10) + '</td >';
         html +=  '<td class="align-middle text-center text-lg" >' + data.note + '</td >' +
                 '<td class="align-middle"><a href="javascript:;" onclick="GetById(' + data.expenId + ')" class=" btn bg-gradient-info font-weight-bold  " data-toggle="tooltip" data-original-title="Edit user">تعديل</a>|' +
                 '<a href="javascript:;"onclick="Delet(' + data.expenId + ')" class=" btn btn-danger font-weight-bold " data-toggle="tooltip" data-original-title="Edit user">حذف</a></td ></tr >';

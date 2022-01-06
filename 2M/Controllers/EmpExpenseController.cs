@@ -52,11 +52,15 @@ namespace _2M.Controllers
             var res = servies.GetEmpExpensesById(Id);
             return Json(res);
         }
+        public IActionResult ViewEmpExpense()
+        {
+            ViewBag.Emp = emp.GetAllEmp().ToList();
+            return View();
+        }
         public IActionResult GetAllEmpcallById(int Id, DateTime start, DateTime end)
         {
             var res = servies.GetAllEmpcallById(Id, start, end).ToList();
             return Json(res);
-
         }
     }
 }
