@@ -18,7 +18,7 @@ namespace DAL.Models
 
         public decimal theRest { get; set; }
         public DateTime Date { get; set; }
-        [ForeignKey("SuppId")]
+        [ForeignKey("Suppliers")]
         public int SuppId { get; set; }
         public Suppliers Suppliers { get; set; }
 

@@ -25,9 +25,10 @@ namespace BLL.Mapper
             CreateMap<AttendVM,Attendance>();
             CreateMap<EmpExpensesVM, EmpExpenses>();
             CreateMap<EmpExpenses, EmpExpensesVM>();
+            CreateMap<AccountOperations, AccOpVM>();
+            CreateMap<AccOpVM, AccountOperations>();
             CreateMap<SupplierOperations, SupOpVM>();
             CreateMap<SupOpVM, SupplierOperations>();
-            
 
 
         }
